@@ -1,35 +1,69 @@
 #include "PercolationStats.h"
 
-PercolationStats::PercolationStats(size_t /*dimension*/, size_t /*trials*/)
+#include "Random_gen.h"
+#include "math.h"
+
+PercolationStats::PercolationStats(size_t dimension, size_t trials)
+    : size(dimension)
+    , num_of_trials(trials)
+    , frame(dimension)
 {
     execute();
 }
 
 double PercolationStats::get_mean() const
 {
-    // Write your logic here
-    return 0.0;
+    return avg_result;
 }
 
 double PercolationStats::get_standard_deviation() const
 {
-    // Write your logic here
-    return 0.0;
+    return standard_deviation;
 }
 
 double PercolationStats::get_confidence_low() const
 {
-    // Write your logic here
-    return 0.0;
+    return confidence_interval.first;
 }
 
 double PercolationStats::get_confidence_high() const
 {
-    // Write your logic here
-    return 0.0;
+    return confidence_interval.second;
 }
 
 void PercolationStats::execute()
 {
-    // Write your logic here
+    double sum_of_results = 0;
+    for (size_t trial = 0; trial < num_of_trials; trial++) {
+        double result = take_result();
+        sum_of_results += result;
+        results.push_back(result);
+    }
+    avg_result = sum_of_results / num_of_trials;
+    standard_deviation = execute_st_deviation();
+    double eps = 1.96 * standard_deviation / sqrt(num_of_trials);
+    confidence_interval = {avg_result - eps, avg_result + eps};
+}
+
+double PercolationStats::take_result()
+{
+    while (!frame.has_percolation()) {
+        size_t rand_row = static_cast<size_t>(get_random_number() * (size));
+        size_t rand_column = static_cast<size_t>(get_random_number() * (size));
+        if (!frame.is_open(rand_row, rand_column)) {
+            frame.open(rand_row, rand_column);
+        }
+    }
+    size_t num_of_open = frame.get_numbet_of_open_cells();
+    frame = Percolation(size);
+    return static_cast<double>(num_of_open) / pow(size, 2);
+}
+
+double PercolationStats::execute_st_deviation()
+{
+    double sum_of_deviations = 0;
+    for (const double result : results) {
+        sum_of_deviations += pow(result - avg_result, 2);
+    }
+    return sqrt(sum_of_deviations / (num_of_trials - 1));
 }

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stdio.h>
+#include <vector>
 
 struct Percolation
 {
@@ -47,4 +48,21 @@ struct Percolation
      * @return false system doesn't percolate
      */
     bool has_percolation() const;
+
+private:
+    bool near_full(size_t row, size_t column) const;
+
+    void enfull_nearest(size_t, size_t);
+
+    void enfull(size_t, size_t);
+
+    bool valid(size_t, size_t) const;
+
+    void print() const;
+
+private:
+    size_t size;
+    size_t open_sells_num;
+    std::vector<char> data;
+    bool has_leaked;
 };
