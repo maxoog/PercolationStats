@@ -62,7 +62,7 @@ private:
 
 private:
     size_t size;
-    size_t open_sells_num;
+    size_t open_sells_num = 0;
     std::vector<char> data;
-    bool has_leaked;
+    bool has_leaked = false;
 };

@@ -48,7 +48,6 @@ private:
 private:
     size_t size;
     size_t num_of_trials;
-    Percolation frame;
     std::vector<double> results;
     double avg_result;
     double standard_deviation;

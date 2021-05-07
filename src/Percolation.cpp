@@ -1,17 +1,15 @@
 #include "Percolation.h"
 
 #include <iostream>
-#include <math.h>
+#include <cmath>
 
-Percolation::Percolation(size_t dimension)
+Percolation::Percolation(const size_t dimension)
     : size(dimension)
-    , open_sells_num(0)
     , data(pow(dimension, 2), 'c')
-    , has_leaked(false)
 {
 }
 
-void Percolation::open(size_t row, size_t column)
+void Percolation::open(const size_t row, const size_t column)
 {
     if (!is_open(row, column)) {
         data[row * size + column] = 'o';
@@ -22,12 +20,12 @@ void Percolation::open(size_t row, size_t column)
     }
 }
 
-bool Percolation::is_open(size_t row, size_t column) const
+bool Percolation::is_open(const size_t row, const size_t column) const
 {
     return data[row * size + column] == 'o' || is_full(row, column);
 }
 
-bool Percolation::is_full(size_t row, size_t column) const
+bool Percolation::is_full(const size_t row, const size_t column) const
 {
     if (!valid(row, column)) {
         return false;
@@ -56,13 +54,13 @@ void Percolation::print() const
     std::cout << open_sells_num << '\n';
 }
 
-bool Percolation::valid(size_t row, size_t column) const
+bool Percolation::valid(const size_t row, const size_t column) const
 {
     return row >= 0 && row < size &&
             column >= 0 && column < size;
 }
 
-void Percolation::enfull_nearest(size_t row, size_t column)
+void Percolation::enfull_nearest(const size_t row, const size_t column)
 {
     if (valid(row, column) && data[row * size + column] == 'o') {
         enfull(row, column);
@@ -73,7 +71,7 @@ void Percolation::enfull_nearest(size_t row, size_t column)
     }
 }
 
-void Percolation::enfull(size_t row, size_t column)
+void Percolation::enfull(const size_t row, const size_t column)
 {
     data[row * size + column] = 'f';
     if (row == size - 1) {
@@ -81,7 +79,7 @@ void Percolation::enfull(size_t row, size_t column)
     }
 }
 
-bool Percolation::near_full(size_t row, size_t column) const
+bool Percolation::near_full(const size_t row, const size_t column) const
 {
     return is_full(row - 1, column) || is_full(row + 1, column) || is_full(row, column - 1) || is_full(row, column + 1);
 }

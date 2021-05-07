@@ -1,12 +1,11 @@
 #include "PercolationStats.h"
 
 #include "Random_gen.h"
-#include "math.h"
+#include "cmath"
 
-PercolationStats::PercolationStats(size_t dimension, size_t trials)
+PercolationStats::PercolationStats(const size_t dimension, const size_t trials)
     : size(dimension)
     , num_of_trials(trials)
-    , frame(dimension)
 {
     execute();
 }
@@ -35,7 +34,7 @@ void PercolationStats::execute()
 {
     double sum_of_results = 0;
     for (size_t trial = 0; trial < num_of_trials; trial++) {
-        double result = take_result();
+        const double result = take_result();
         sum_of_results += result;
         results.push_back(result);
     }
@@ -47,6 +46,7 @@ void PercolationStats::execute()
 
 double PercolationStats::take_result()
 {
+    Percolation frame(size);
     while (!frame.has_percolation()) {
         size_t rand_row = static_cast<size_t>(get_random_number() * (size));
         size_t rand_column = static_cast<size_t>(get_random_number() * (size));
@@ -55,7 +55,6 @@ double PercolationStats::take_result()
         }
     }
     size_t num_of_open = frame.get_numbet_of_open_cells();
-    frame = Percolation(size);
     return static_cast<double>(num_of_open) / pow(size, 2);
 }
 
