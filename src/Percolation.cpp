@@ -1,7 +1,7 @@
 #include "Percolation.h"
 
-#include <iostream>
 #include <cmath>
+#include <iostream>
 
 Percolation::Percolation(const size_t dimension)
     : size(dimension)
