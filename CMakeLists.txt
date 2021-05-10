@@ -21,13 +21,13 @@ file(GLOB SRC_FILES ${PROJECT_SOURCE_DIR}/src/*.cpp)
 list(REMOVE_ITEM SRC_FILES ${PROJECT_SOURCE_DIR}/src/main.cpp)
 
 # Compile source files into a library
-add_library(percolation_lib ${SRC_FILES})
+add_library(percolation_lib ${SRC_FILES} src/Random_gen.cpp)
 target_compile_options(percolation_lib PUBLIC ${COMPILE_OPTS})
 target_link_options(percolation_lib PUBLIC ${LINK_OPTS})
 setup_warnings(percolation_lib)
 
 # Main
-add_executable(percolation ${PROJECT_SOURCE_DIR}/src/main.cpp)
+add_executable(percolation ${PROJECT_SOURCE_DIR}/src/main.cpp include/Random_gen.h)
 target_compile_options(percolation PRIVATE ${COMPILE_OPTS})
 target_link_options(percolation PRIVATE ${LINK_OPTS})
 target_link_libraries(percolation percolation_lib)

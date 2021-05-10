@@ -1,6 +1,9 @@
 #pragma once
 
+#include <Percolation.h>
 #include <stdio.h>
+#include <utility>
+#include <vector>
 
 struct PercolationStats
 {
@@ -34,5 +37,19 @@ struct PercolationStats
     /**
      * Makes all experiments, calculates statistic values
      */
+
+private:
     void execute();
+
+    double execute_st_deviation();
+
+    double take_result();
+
+private:
+    size_t size;
+    size_t num_of_trials;
+    std::vector<double> results;
+    double avg_result;
+    double standard_deviation;
+    std::pair<double, double> confidence_interval;
 };
